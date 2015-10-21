@@ -1,0 +1,6 @@
+F:\Unity\Tank Game\Tank Game\bin\Debug\Tank Game.exe.config
+F:\Unity\Tank Game\Tank Game\bin\Debug\Tank Game.exe
+F:\Unity\Tank Game\Tank Game\bin\Debug\Tank Game.pdb
+F:\Unity\Tank Game\Tank Game\obj\Debug\Tank Game.csprojResolveAssemblyReference.cache
+F:\Unity\Tank Game\Tank Game\obj\Debug\Tank Game.exe
+F:\Unity\Tank Game\Tank Game\obj\Debug\Tank Game.pdb
