@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Tank_Game
 {
-    class GameEngine
+    public class GameEngine
     {
         #region Variables
 
@@ -16,25 +16,74 @@ namespace Tank_Game
         private int starDir;        //start direction of player
         private Point[,] grid;    //the grid
         private int mapSize;       //no of rows and columns in the grid
-        private string mapDetails;     //map details from server
         private List<Point> brickLocations;
         private List<Point> stoneLocations;
         private List<Point> waterLocations;
-        
+        private List<Point> coinLocations;
+        private List<char> msgTypes;
+
         #endregion
 
-        public GameEngine(string starter)
+        public GameEngine()
         {
-            setStartStats(starter);
-            mapSize = 10;
-            mapDetails = "I:P1:1,1;2,3;3,4:2,5;6,8;7,0:3,1;4,2;6,8";
+            msgTypes = new List<char>();
+            msgTypes.Add('S');
+            msgTypes.Add('I');
+            msgTypes.Add('G');
+            msgTypes.Add('C');
+            msgTypes.Add('L');
+            //generateGrid(mapDetails);        
+        }
+
+        public void handleMessage(String message)
+        {
+            message = message.Substring(0, message.Length - 2);
+            char firstChar = message[0];
+            if (msgTypes.Contains(firstChar))
+            {
+                if (firstChar == 'S')
+                {
+                    initialize(message);
+                }
+                if (firstChar == 'I')
+                {
+                    generateGrid(message);
+                }
+                if (firstChar == 'G')
+                {
+                    updateMap(message);
+                }
+                if (firstChar == 'C')
+                {
+                    handleCoins(message);
+                }
+                if (firstChar == 'L')
+                {
+                    handleLifePacks(message);
+                }
+            }
+            else
+            {
+
+            }
+        }
+
+        private void initialize(string starter)
+        {
+            playerNum = int.Parse(char.ToString(starter[3]));
+            string loc = starter.Split(':')[2];
+            startLoc = new Point(int.Parse(loc.Split(',')[0]), int.Parse(loc.Split(',')[1]));
+            starDir = int.Parse(starter.Split(':')[3]);
+            Console.WriteLine(playerNum + " " + startLoc + " " + starDir);
+        }
+
+        private void generateGrid(string map)
+        {
+            this.mapSize = 10;
             brickLocations = new List<Point>();
             stoneLocations = new List<Point>();
             waterLocations = new List<Point>();
-            generateGrid(mapDetails);        
-        }
-        private void generateGrid(string map)
-        {
+            coinLocations = new List<Point>();
             setLocations(map);
             grid = new Point[mapSize, mapSize];
             for (int i = 0; i < mapSize; i++)
@@ -65,16 +114,6 @@ namespace Tank_Game
             }
         }
 
-        private void setStartStats(string starter)
-        {
-            Console.WriteLine(starter[3]);
-            playerNum = starter[3];
-            string loc = starter.Split(':')[2];
-            startLoc = new Point(int.Parse(loc.Split(',')[0]), int.Parse(loc.Split(',')[1]));
-            starDir = int.Parse(starter.Split(':')[3]);
-            Console.WriteLine(playerNum + " " + startLoc + " " + starDir);
-        }
-
         private void setLocations(string map)
         {
             string[] splittedValues = map.Split(':');
@@ -98,13 +137,29 @@ namespace Tank_Game
                 {
                     //Console.WriteLine("exception");
                 }
-                
+
             }
         }
 
         private void updateMap(string msg)
         {
 
+        }
+
+        private void handleCoins(string msg)
+        {
+            string[] tokens = msg.Split(':');
+            Point p = new Point(int.Parse(tokens[1].Split(',')[0]), int.Parse(tokens[1].Split(',')[1]));
+            coinLocations.Add(p);
+            CoinPile coins = new CoinPile(p, int.Parse(tokens[2]), 0, int.Parse(tokens[3]));
+        }
+
+        private void handleLifePacks(string msg)
+        {
+            string[] tokens = msg.Split(':');
+            Point p = new Point(int.Parse(tokens[1].Split(',')[0]), int.Parse(tokens[1].Split(',')[1]));
+            coinLocations.Add(p);
+            LifePack lifepack = new LifePack(p, int.Parse(tokens[2]), 0);
         }
     }
 }

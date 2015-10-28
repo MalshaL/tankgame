@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client.cs" />
+    <Compile Include="CoinPile.cs" />
+    <Compile Include="ConnectClient.cs" />
     <Compile Include="GameEngine.cs" />
+    <Compile Include="GridEntity.cs" />
+    <Compile Include="LifePack.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
