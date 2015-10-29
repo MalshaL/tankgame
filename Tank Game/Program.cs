@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using Tank_Game;
 using TankClient;
+using System.Windows.Forms;
 
 namespace Client
 {
@@ -15,16 +16,17 @@ namespace Client
         static void Main(string[] args)
         {
             ConnectClient client = new ConnectClient();
+            Application.EnableVisualStyles();
             client.recivePool();
+            Application.Run(new GUI());
 
-            client.sendPool();
-            Console.ReadLine();
-
-            //string initialMsg = "S:P1:1,1:0#";
-            //string mapDetails = "I:P1:1,1;2,3;3,4:2,5;6,8;7,0:3,1;4,2;6,8#";
-            //
+            //GameEngine gameEngine = new GameEngine();
+            //string initialMsg = "S:P0;1,1;0#?";
+            //string mapDetails = "I:P0:1,1;2,3;3,4:2,5;6,8;7,0:3,1;4,2;6,8#?";
+            //string m = "G:P0;0,0;0;0;100;0;0#?";
             //gameEngine.handleMessage(initialMsg);
             //gameEngine.handleMessage(mapDetails);
+            //gameEngine.handleMessage(m);
             //Console.ReadLine();
         }
     }

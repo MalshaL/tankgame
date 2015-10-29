@@ -13,18 +13,27 @@ namespace TankClient
 {
     class ConnectClient
     {
-        private NetworkStream clientStream; //Stream - outgoing
-        private TcpClient client; //To talk back to the client
-        private BinaryWriter writer; //To write to the clients
-
-        private NetworkStream serverStream; //Stream - incoming        
-        private TcpListener listener; //To listen to the clinets        
-        public string reply = ""; //The message to be written
-
-        private string clientmsg = null;
-        private Thread clientThread = null;
-        String x = Console.ReadLine();
         GameEngine gameEngine = new GameEngine();
+        //Inisialize client to communicate with server
+        private TcpClient client;
+
+        // TcpListner to listen to incomming clients      
+        private TcpListener listener;
+
+
+        //Network stream to send & recive data
+        private NetworkStream clientStream;
+        private NetworkStream serverStream;
+
+        // BinaryWriter to client
+        private BinaryWriter writer;
+
+        //private string clientmsg = null;
+        public string reply = "";
+        private Thread threadsend = null;
+        private Thread threadrecive = null;
+        // String clientmag = Console.ReadLine();
+
 
         public void ReceiveData()
         {
@@ -36,7 +45,7 @@ namespace TankClient
 
             try
             {
-                Console.WriteLine("Client is starting");
+
 
                 //create new client socket
                 this.listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 7000);
@@ -70,10 +79,14 @@ namespace TankClient
                         {
                             asw = this.serverStream.ReadByte();
                             clientInput.Add((Byte)asw);
+                            //Console.WriteLine("STILL RUNNING");
                         }
 
+                        //  Console.WriteLine("end");
                         reply = Encoding.UTF8.GetString(clientInput.ToArray());
                         this.serverStream.Close();
+                        // Console.WriteLine("CONNECTION CLOSE");
+                        Thread.Sleep(100);
                         string ip = address.Substring(0, address.IndexOf(":"));
 
 
@@ -109,52 +122,17 @@ namespace TankClient
 
 
 
-        public void SendData()
+        public void SendData(string msg)
         {
 
             //Opening the connection
             this.client = new TcpClient();
-            /*   if (System.Console.KeyAvailable) { 
-               Object t = System.Console.ReadKey(true).Key;
-               String msg = "";
-               if (t.Equals(ConsoleKey.UpArrow))
-               {
-                    msg = "UP#";
-               }
-               else if (t.Equals(ConsoleKey.DownArrow))
-               {
-                    msg = "DOWN#";
-               }
-               else if (t.Equals(ConsoleKey.LeftArrow))
-               {
-                   msg = "LEFT#";
-               }
-               else if (t.Equals(ConsoleKey.RightArrow))
-               {
-                   msg = "RIGHT#";
-               }
-               Console.WriteLine(msg);
-               if (this.client.Connected)
-               {
-                   //To write to the socket
-                   this.clientStream = client.GetStream();
 
-                   //Create objects for writing across stream
-                   this.writer = new BinaryWriter(clientStream);
-                   Byte[] tempStr = Encoding.ASCII.GetBytes(x);
-
-                   //writing to the port                
-                   this.writer.Write(tempStr);
-                   Console.WriteLine(msg);
-                   this.writer.Close();
-                   this.clientStream.Close();
-               }
-               }*/
 
             try
             {
 
-
+                Console.WriteLine("Client starting.....");
                 this.client.Connect(IPAddress.Parse("127.0.0.1"), 6000);
 
                 if (this.client.Connected)
@@ -164,13 +142,17 @@ namespace TankClient
 
                     //Create objects for writing across stream
                     this.writer = new BinaryWriter(clientStream);
-                    Byte[] tempStr = Encoding.ASCII.GetBytes(x);
+                    //Console.WriteLine("Write JOIN# to start game");
+                    //String clientmag = Console.ReadLine();
+                    //clientmag = "I want to send";
+                    Byte[] tempStr = Encoding.ASCII.GetBytes(msg);
 
                     //writing to the port                
                     this.writer.Write(tempStr);
-                    Console.WriteLine("\t Data: " + x + " is written to " + IPAddress.Parse("127.0.0.1") + " on " + 6000);
+                    Console.WriteLine("\t Data: " + msg + " is written to " + IPAddress.Parse("127.0.0.1") + " on " + 6000);
                     this.writer.Close();
                     this.clientStream.Close();
+                    Console.WriteLine("send is close");
                 }
 
             }
@@ -189,15 +171,34 @@ namespace TankClient
 
         public void recivePool()
         {
-            clientThread = new Thread(new ThreadStart(ReceiveData));
-            clientThread.Start();
+
+            threadrecive = new Thread(new ThreadStart(ReceiveData));
+            threadrecive.Start();
         }
         public void sendPool()
         {
 
-            clientThread = new Thread(new ThreadStart(SendData));
-            clientThread.Start();
+            //threadsend = new Thread(new ThreadStart(SendData());
+            threadsend.Start();
+            Console.WriteLine("Send pool is still running");
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
 }
 

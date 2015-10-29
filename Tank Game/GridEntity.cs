@@ -9,17 +9,22 @@ namespace Tank_Game
 {
     public class GridEntity
     {
+        private string name = "~~ ";
         private Point position;
-        private int lifeTime = -1;
-        private int appearTime = -1;
-        private int disappearTime = -1;
 
-        public GridEntity(Point p, int lifeTime, int appearTime)
+        public GridEntity(Point p)
         {
-            this.position = p;
-            this.setLifeTime(lifeTime);
-            this.setAppearTime(appearTime);
-            this.setDisappearTime(appearTime, lifeTime);
+            this.setPosition(p);
+        }
+
+        public string getName()
+        {
+            return name;
+        }
+
+        public void setName(string n)
+        {
+            this.name = n;
         }
 
         public void setPosition(Point value)
@@ -31,37 +36,5 @@ namespace Tank_Game
         {
             return position;
         }
-
-        public void setLifeTime(int value)
-        {
-            this.lifeTime = value;
-        }
-
-        public int getLifeTime()
-        {
-            return lifeTime;
-        }
-
-        public int getAppearTime()
-        {
-            return appearTime;
-        }
-
-        public void setAppearTime(int value)
-        {
-            this.appearTime = value;
-        }
-
-        public int getDisappearTime()
-        {
-            return disappearTime;
-        }
-
-        public void setDisappearTime(int appearTime, int lifeTime)
-        {
-            this.disappearTime = appearTime + lifeTime;
-        }
-
-
     }
 }

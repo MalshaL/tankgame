@@ -10,3 +10,5 @@ E:\Documents\Stuff\tankgame\tankgame\Tank Game\obj\Debug\Tank Game.pdb
 E:\Documents\Stuff\tankgame\tankgame\Tank Game\bin\Debug\Tank Game.exe
 E:\Documents\Stuff\tankgame\tankgame\Tank Game\bin\Debug\Tank Game.pdb
 E:\Documents\Stuff\tankgame\tankgame\Tank Game\obj\Debug\Tank Game.csprojResolveAssemblyReference.cache
+E:\Documents\Stuff\tankgame\tankgame\Tank Game\obj\Debug\TankClient.GUI.resources
+E:\Documents\Stuff\tankgame\tankgame\Tank Game\obj\Debug\Tank Game.csproj.GenerateResource.Cache
