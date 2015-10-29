@@ -33,6 +33,7 @@ namespace TankClient
         private Thread threadsend = null;
         private Thread threadrecive = null;
         // String clientmag = Console.ReadLine();
+        Move command = new Move();
 
 
         public void ReceiveData()
@@ -84,9 +85,12 @@ namespace TankClient
 
                         //  Console.WriteLine("end");
                         reply = Encoding.UTF8.GetString(clientInput.ToArray());
+                        string r = reply.Split(';')[0];
+                        // Console.WriteLine("______________________"+r);
+                        command.catchSend(r);
                         this.serverStream.Close();
                         // Console.WriteLine("CONNECTION CLOSE");
-                        Thread.Sleep(100);
+                        Thread.Sleep(10);
                         string ip = address.Substring(0, address.IndexOf(":"));
 
 
@@ -152,7 +156,7 @@ namespace TankClient
                     Console.WriteLine("\t Data: " + msg + " is written to " + IPAddress.Parse("127.0.0.1") + " on " + 6000);
                     this.writer.Close();
                     this.clientStream.Close();
-                    Console.WriteLine("send is close");
+                    // Console.WriteLine("send is close");
                 }
 
             }
